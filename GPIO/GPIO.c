@@ -9,7 +9,6 @@ GPIO Port F (AHB): 0x4005D000
 
 #include "STD_TYPES.h"
 #include "GPIO.h"
-#include "GPIO_Config.h"
 
 /* RCC module base */
 #define SYSTEM_CTRL_BASE (0x400FE000)
@@ -144,11 +143,7 @@ Error_S GPIO_Init(u32 port, u8 pin, u8 direction)
         /* 4- turn pull up/down if input mode */
         if (GPIO_PIN_DIR_INPUT == direction)
         {
-#if GPIO_PULL_UP_DOWN == GPIO_PULL_UP
             baseAddr->GPIOPUR |= pinMask;
-#elif GPIO_PULL_UP_DOWN == GPIO_PULL_DOWN
-            baseAddr->GPIOPDR |= pinMask;
-#endif
         }
 
         /* 5- enable digital I/O mode (not Analog mode) */
