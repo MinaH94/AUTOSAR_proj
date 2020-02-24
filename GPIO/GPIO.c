@@ -7,6 +7,7 @@ GPIO Port E (AHB): 0x4005C000
 GPIO Port F (AHB): 0x4005D000
 */
 
+#include "STD_TYPES.h"
 #include "GPIO.h"
 #include "GPIO_Config.h"
 
