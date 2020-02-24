@@ -80,7 +80,7 @@ typedef struct
 
 Error_S GPIO_Init(u32 port, u8 pin, u8 direction)
 {
-    u8 err;
+    Error_S err;
     u32 dir;
     u32 pinMask;
 
