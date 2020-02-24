@@ -13,8 +13,7 @@
 
 #include "GPIO.h"
 
-/*  SWITCH_PULL -> PULL UP =0   && PULL DOWN =1   */
-#define SWITCH_PULLUP            1
+
 
 
 
@@ -30,16 +29,16 @@
  *                   SWITCH_RIGHT :- right switch
  *******************************************************/
 Error_S SWITCH_Init(u8 SWITCH_NUM);
-/*******************************************************************
- * Return Type :- u8
- *                SWITCH_PRESSED     -> if switch is pressed
- *                SWITCH_NOTPRESSED  -> if if switch not pressed
- *
+
+/**********************************************************************
+ * Return Type :- Error_S  [E_OK: request accepted
+                           E_NOT_OK: request not accepted ]
  *Input Argument :-
  *                Copy_u8SwitchNumber :- Switch number
- *                                       switch1
- *                                       switch2
- *******************************************************************/
+ *                                       SWITCH_LEFT
+ *                                       SWITCH_RIGHT
+ *Output Argument :- GetPinVaule(pointer)
+ **********************************************************************/
 Error_S SWITCH_ReadState(u8 SwitchNumber, u8* GetPinValue);
 
 

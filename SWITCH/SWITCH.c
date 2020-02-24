@@ -27,7 +27,7 @@ Error_S SWITCH_Init(u8 SwitchNumber)
     Error_S State=Error_OK;
 
     GPIO_Init(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber], GPIO_PIN_DIR_INPUT);
-    GPIO_WritePin(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber],SWITCH_PULLUP);
+    GPIO_WritePin(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber],GPIO_PIN_VALUE_HIGH);
 
     return State;
 }
