@@ -24,7 +24,7 @@ u32 SWITCH_PORT[]={SWITCH_LEFT_PORT,SWITCH2_RIGHT_PORT };
  *******************************************************/
 Error_S SWITCH_Init(u8 SwitchNumber)
 {
-    Error_S State=Error_OK;
+    Error_S State=ERORR_OK;
 
     GPIO_Init(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber], GPIO_PIN_DIR_INPUT);
     GPIO_WritePin(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber],GPIO_PIN_VALUE_HIGH);
@@ -44,7 +44,7 @@ Error_S SWITCH_Init(u8 SwitchNumber)
  **********************************************************************/
 Error_S SWITCH_ReadState(u8 SwitchNumber, u8* GetPinValue)
 {
-    Error_S  State=Error_OK;
+    Error_S  State=ERORR_OK;
     u8 PinValue;
 
     GPIO_ReadPin(SWITCH_PORT[SwitchNumber],SWITCH_PIN[SwitchNumber],&PinValue);
