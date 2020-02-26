@@ -6,6 +6,7 @@
 #define LEFT_DOOR_CLOSED 0
 #define LEFT_DOOR_OPEN   1
 
+Error_S Left_DoorSystemInit (void);
 Error_S Left_DoorSystem (u8* DoorState);
 
 #endif /* LEFT_DDOR_H_ */

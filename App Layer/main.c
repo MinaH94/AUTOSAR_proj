@@ -11,6 +11,10 @@ int main(void)
     u8 leftSate;
     u8 rightSate;
 
+    Left_DoorSystemInit();
+    Right_DoorSystemInit();
+    DoorLightingSystemInit();
+
     while (1)
     {
         Left_DoorSystem(&leftSate);
