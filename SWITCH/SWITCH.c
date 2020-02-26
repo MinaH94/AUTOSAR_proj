@@ -12,7 +12,7 @@
 #include "SWITCH_Cfg.h"
 
 
-u16 SWITCH_PIN[] ={SWITCH_LEFT_PIN,SWITCH_RIGHT_PIN};
+u8 SWITCH_PIN[] ={SWITCH_LEFT_PIN,SWITCH_RIGHT_PIN};
 u32 SWITCH_PORT[]={SWITCH_LEFT_PORT,SWITCH2_RIGHT_PORT };
 
 /*******************************************************
@@ -28,7 +28,7 @@ Error_S SWITCH_Init(u8 SwitchNumber)
     Error_S State = ERROR_OK;
 
     GPIO_Init(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber], GPIO_PIN_DIR_INPUT);
-    GPIO_WritePin(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber],GPIO_PIN_VALUE_HIGH);
+   // GPIO_WritePin(SWITCH_PORT[SwitchNumber], SWITCH_PIN[SwitchNumber],GPIO_PIN_VALUE_HIGH);
 
     return State;
 }

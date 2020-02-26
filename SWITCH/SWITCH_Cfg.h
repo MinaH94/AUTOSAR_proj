@@ -32,11 +32,11 @@
         GPIO_PIN_7
 
  */
-#define SWITCH_LEFT_PIN        GPIO_PIN_0
-#define SWITCH_LEFT_PORT       GPIO_PORT_A
+#define SWITCH_LEFT_PIN        GPIO_PIN_5
+#define SWITCH_LEFT_PORT       GPIO_PORT_B
 
-#define SWITCH_RIGHT_PIN       GPIO_PIN_1
-#define SWITCH2_RIGHT_PORT     GPIO_PORT_A
+#define SWITCH_RIGHT_PIN       GPIO_PIN_0
+#define SWITCH2_RIGHT_PORT     GPIO_PORT_B
 
 
 

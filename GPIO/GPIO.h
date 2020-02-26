@@ -16,19 +16,19 @@
 /* ****************************** */
 
 /* Pin number: [0 - 7] */
-#define GPIO_PIN_0 0
-#define GPIO_PIN_1 1
-#define GPIO_PIN_2 2
-#define GPIO_PIN_3 3
-#define GPIO_PIN_4 4
-#define GPIO_PIN_5 5
-#define GPIO_PIN_6 6
-#define GPIO_PIN_7 7
+#define GPIO_PIN_0 0x1
+#define GPIO_PIN_1 0x2
+#define GPIO_PIN_2 0x4
+#define GPIO_PIN_3 0x8
+#define GPIO_PIN_4 0x10
+#define GPIO_PIN_5 0x20
+#define GPIO_PIN_6 0x40
+#define GPIO_PIN_7 0x80
 /* ****************************** */
 
 /* Pin value: HIGH or LOW */
-#define GPIO_PIN_VALUE_HIGH 1
-#define GPIO_PIN_VALUE_LOW  0
+#define GPIO_PIN_VALUE_HIGH 0xFF
+#define GPIO_PIN_VALUE_LOW  0x0
 /* ****************************** */
 
 /* Port bus select */
@@ -39,5 +39,6 @@
 Error_S GPIO_Init(u32 port, u8 pin, u8 direction);
 Error_S GPIO_ReadPin(u32 port, u8 pin, u8* out);
 Error_S GPIO_WritePin(u32 port, u8 pin, u8 value);
+Error_S SYSCTRL_GPIOBusControl(u8 In_u8In_u32Port, u8 In_u8Bus);
 
 #endif /* GPIO_H_ */

@@ -19,20 +19,21 @@ Error_S HLED_Init (void)
 	u8 Leds_Counter = 0;
 	const LedMap_t* Led_Config = HLED_GetLedConfigurations();
 
-	for ( Leds_Counter =0 ; Leds_Counter < LED_NUMBERS ; Leds_Counter++)
-	{
-		//GPIO_Init (Led_Config[Leds_Counter]);
-		GPIO_Init (Led_Config[Leds_Counter].GPIO_Port, Led_Config[Leds_Counter].GPIO_Pin_Number, GPIO_PIN_DIR_OUTPUT);
-	}
+    GPIO_Init (Led_Config[Leds_Counter].GPIO_Port, Led_Config[Leds_Counter].GPIO_Pin_Number, GPIO_PIN_DIR_OUTPUT);
+
 	return Error_Status;
 }
 
-Error_S HLED_writeLedState (u8 Led_Channel_Number)
+/*
+ * Led_State : LED_STATE_ON
+ *             LED_STATE_OFF
+ */
+Error_S HLED_writeLedState (u8 Led_State)
 {
 	Error_S Error_Status = ERROR_OK;
 
 	const LedMap_t* Led_Config = HLED_GetLedConfigurations();
-	GPIO_WritePin (Led_Config[Led_Channel_Number].GPIO_Port, Led_Config[Led_Channel_Number].GPIO_Pin_Number, GPIO_PIN_DIR_OUTPUT);
+	GPIO_WritePin (Led_Config[Led_Channel_Number].GPIO_Port, Led_Config[Led_Channel_Number].GPIO_Pin_Number, Led_State);
 
 	return Error_Status;
 }

@@ -12,11 +12,10 @@
 typedef struct
 {
     u8 GPIO_Pin_Number;
-    u8 GPIO_Port;
-    u8 LED_State;
+    u32 GPIO_Port;
 }LedMap_t;
 
-#define LED_NUMBERS 2
+#define LED_NUMBERS 1
 
 const LedMap_t* HLED_GetLedConfigurations (void);
 

@@ -5,7 +5,7 @@ GPIO Port C (AHB): 0x4005A000
 GPIO Port D (AHB): 0x4005B000
 GPIO Port E (AHB): 0x4005C000
 GPIO Port F (AHB): 0x4005D000
-*/
+ */
 
 #include "STD_TYPES.h"
 #include "GPIO.h"
@@ -13,7 +13,7 @@ GPIO Port F (AHB): 0x4005D000
 /* RCC module base */
 #define SYSTEM_CTRL_BASE  (0x400FE000)
 /* Port clock control register */
-#define RCGCGPIO          (*((volatile u32*)(SYSTEM_CTRL_BASE + 0x608)))
+#define RCGCGPIO          (*((volatile u32*)(SYSTEM_CTRL_BASE + 0x108)))
 #define	SYSCTRL_GPIOHBCTL (*((volatile u32*)(SYSTEM_CTRL_BASE + 0x06C)))
 
 /* Clock enable values */
@@ -29,8 +29,9 @@ GPIO Port F (AHB): 0x4005D000
 typedef struct
 {
     //const u32 pad;
-    u32 GPIODATA[256];
-    
+    const u32 padd[255];
+    u32 GPIODATA;
+
     // TODO: review this again
     //u32 GPIODATA;
 
@@ -90,69 +91,84 @@ Error_S GPIO_Init(u32 port, u8 pin, u8 direction)
 
     /* if port value is incorrect */
     if ((GPIO_PORT_A != port) &&
-        (GPIO_PORT_B != port) &&
-        (GPIO_PORT_C != port) &&
-        (GPIO_PORT_D != port) &&
-        (GPIO_PORT_E != port) &&
-        (GPIO_PORT_F != port))
+            (GPIO_PORT_B != port) &&
+            (GPIO_PORT_C != port) &&
+            (GPIO_PORT_D != port) &&
+            (GPIO_PORT_E != port) &&
+            (GPIO_PORT_F != port))
     {
         err = ERROR_NOK;
     }
-    else if (PIN_COUNT <= pin) /* if pin value is outside range */
+    else if (
+            (GPIO_PIN_0!= pin) &&
+            (GPIO_PIN_1!= pin) &&
+        (GPIO_PIN_2!= pin) &&
+        (GPIO_PIN_3!= pin) &&
+        (GPIO_PIN_4!= pin) &&
+        (GPIO_PIN_5!= pin) &&
+        (GPIO_PIN_6!= pin) &&
+        (GPIO_PIN_7!= pin)
+
+    ) /* if pin value is outside range */
     {
         err = ERROR_NOK;
     }
     else
     {
-        volatile GPIO_t* baseAddr = (volatile GPIO_t*)port;
-        pinMask = (u32)1 << pin;
+
 
         /* 1- enable port clock */
         switch (port)
         {
         case GPIO_PORT_A:
             RCGCGPIO |= PORTA_CLOCK_ENABLE;
-        break;
-        
+            break;
+
         case GPIO_PORT_B:
             RCGCGPIO |= PORTB_CLOCK_ENABLE;
-        break;
-        
+            break;
+
         case GPIO_PORT_C:
             RCGCGPIO |= PORTC_CLOCK_ENABLE;
-        break;
-        
+            break;
+
         case GPIO_PORT_D:
             RCGCGPIO |= PORTD_CLOCK_ENABLE;
-        break;
-        
+            break;
+
         case GPIO_PORT_E:
             RCGCGPIO |= PORTE_CLOCK_ENABLE;
-        break;
-        
+            break;
+
         case GPIO_PORT_F:
             RCGCGPIO |= PORTF_CLOCK_ENABLE;
-        break;
-        
+            break;
+
         }
+
+
+        volatile GPIO_t* baseAddr = (volatile GPIO_t*)port;
+//        pinMask = (u32)1 << pin;
+
 
         /* 2- set direction (input or output) */
         dir = baseAddr->GPIODIR;
-        dir &= ~pinMask;
-        dir |= direction << pin;
+        dir &= ~pin;
+        if(direction == GPIO_PIN_DIR_OUTPUT)
+                            dir |= pin;
         baseAddr->GPIODIR = dir;
 
         /* 3- set mode to GPIO (not Alternate Function) */
-        baseAddr->GPIOAFSEL &= ~pinMask;
+        baseAddr->GPIOAFSEL &= ~pin;
 
         /* 4- turn pull up/down if input mode */
         if (GPIO_PIN_DIR_INPUT == direction)
         {
-            baseAddr->GPIOPUR |= pinMask;
+            baseAddr->GPIOPUR |= pin;
         }
 
         /* 5- enable digital I/O mode (not Analog mode) */
-        baseAddr->GPIODEN |= pinMask;
+        baseAddr->GPIODEN |= pin;
 
         err = ERROR_OK;
     }
@@ -163,82 +179,107 @@ Error_S GPIO_Init(u32 port, u8 pin, u8 direction)
 
 Error_S SYSCTRL_GPIOBusControl(u8 In_u8In_u32Port, u8 In_u8Bus)
 {
-	Error_S Local_u8Status = ERROR_NOK;
+    Error_S Local_u8Status = ERROR_NOK;
 
-	if (SYSCTRL_APB == In_u8Bus)
-	{
+    if (SYSCTRL_APB == In_u8Bus)
+    {
         Local_u8Status = ERROR_OK;
         SYSCTRL_GPIOHBCTL &=~ In_u8In_u32Port;
-	}
-	else if (SYSCTRL_AHB == In_u8Bus)
-	{
+    }
+    else if (SYSCTRL_AHB == In_u8Bus)
+    {
         Local_u8Status = ERROR_OK;
         SYSCTRL_GPIOHBCTL |= In_u8In_u32Port;
-	}
+    }
 
-	return Local_u8Status;
+    return Local_u8Status;
 }
 
 Error_S GPIO_ReadPin(u32 In_u32Port, u8 In_u8Pin, u8* Out_u8Out)
 {
-	u8 err = ERROR_OK;
+    u8 err = ERROR_OK;
     if ((GPIO_PORT_A != In_u32Port) &&
-        (GPIO_PORT_B != In_u32Port) &&
-        (GPIO_PORT_C != In_u32Port) &&
-        (GPIO_PORT_D != In_u32Port) &&
-        (GPIO_PORT_E != In_u32Port) &&
-        (GPIO_PORT_F != In_u32Port))			
+            (GPIO_PORT_B != In_u32Port) &&
+            (GPIO_PORT_C != In_u32Port) &&
+            (GPIO_PORT_D != In_u32Port) &&
+            (GPIO_PORT_E != In_u32Port) &&
+            (GPIO_PORT_F != In_u32Port))
     {
         err = ERROR_NOK;
     }
-    else if (PIN_COUNT <= In_u8Pin) /* if In_u8Pin In_u8Value is Out_u8Outside range */
-    {
-        err = ERROR_NOK;
-    }
-    else
-    {
-        volatile GPIO_t* baseAddr = (volatile GPIO_t*)In_u32Port;
 
-        /* GPIODATA is mapped to 256 register that read and write operations are mapped to,
-        to understand more please go to page 654 in the manual */
-        if(0 < baseAddr->GPIODATA[In_u8Pin])
+    else if (
+            (GPIO_PIN_0!= In_u8Pin) &&
+            (GPIO_PIN_1!= In_u8Pin) &&
+        (GPIO_PIN_2!= In_u8Pin) &&
+        (GPIO_PIN_3!= In_u8Pin) &&
+        (GPIO_PIN_4!= In_u8Pin) &&
+        (GPIO_PIN_5!= In_u8Pin) &&
+        (GPIO_PIN_6!= In_u8Pin) &&
+        (GPIO_PIN_7!= In_u8Pin)
+
+                     ) /* if In_u8Pin In_u8Value is Out_u8Outside range */
         {
-            *Out_u8Out = GPIO_PIN_VALUE_HIGH;
+            err = ERROR_NOK;
         }
         else
         {
-            *Out_u8Out = GPIO_PIN_VALUE_LOW;
-        }
-    }
+            volatile GPIO_t* baseAddr = (volatile GPIO_t*)In_u32Port;
 
-	return err;
+            /* GPIODATA is mapped to 256 register that read and write operations are mapped to,
+        to understand more please go to page 654 in the manual */
+            if(0 != (baseAddr->GPIODATA&In_u8Pin))
+            {
+                *Out_u8Out = 1;
+            }
+            else
+            {
+                *Out_u8Out = GPIO_PIN_VALUE_LOW;
+            }
+        }
+
+        return err;
 }
 
 Error_S GPIO_WritePin(u32 In_u32Port, u8 In_u8Pin, u8 In_u8Value)
 {
-	
-	Error_S err = ERROR_OK;
+
+    Error_S err = ERROR_OK;
     if ((GPIO_PORT_A != In_u32Port) &&
-        (GPIO_PORT_B != In_u32Port) &&
-        (GPIO_PORT_C != In_u32Port) &&
-        (GPIO_PORT_D != In_u32Port) &&
-        (GPIO_PORT_E != In_u32Port) &&
-        (GPIO_PORT_F != In_u32Port))			
+            (GPIO_PORT_B != In_u32Port) &&
+            (GPIO_PORT_C != In_u32Port) &&
+            (GPIO_PORT_D != In_u32Port) &&
+            (GPIO_PORT_E != In_u32Port) &&
+            (GPIO_PORT_F != In_u32Port))
     {
         err = ERROR_NOK;
     }
-    else if (PIN_COUNT <= In_u8Pin) /* if In_u8Pin In_u8Value is Out_u8Outside range */
-    {                  
-        err = ERROR_NOK;
-    }
-    else
-    {
-        /* GPIODATA is mapped to 256 register that read and write operations are mapped to,
+
+    else if (
+            (GPIO_PIN_0!= In_u8Pin) &&
+         (GPIO_PIN_1!= In_u8Pin) &&
+        (GPIO_PIN_2!= In_u8Pin) &&
+        (GPIO_PIN_3!= In_u8Pin) &&
+        (GPIO_PIN_4!= In_u8Pin) &&
+        (GPIO_PIN_5!= In_u8Pin) &&
+        (GPIO_PIN_6!= In_u8Pin) &&
+        (GPIO_PIN_7!= In_u8Pin)
+
+                     ) /* if In_u8Pin In_u8Value is Out_u8Outside range */
+        {
+            err = ERROR_NOK;
+        }
+        else
+        {
+            /* GPIODATA is mapped to 256 register that read and write operations are mapped to,
            to understand more please go to page 654 in the manual */
-        volatile GPIO_t* baseAddr = (volatile GPIO_t*)In_u32Port;
+            volatile GPIO_t* baseAddr = (volatile GPIO_t*)In_u32Port;
+            if(In_u8Value != 0)
+            baseAddr->GPIODATA |= (In_u8Value&In_u8Pin);
+            else
+                baseAddr->GPIODATA &=~ (In_u8Value|In_u8Pin);
 
-        baseAddr->GPIODATA[In_u8Pin] = In_u8Value;
-    }
+        }
 
-    return err;
+        return err;
 }

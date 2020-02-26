@@ -9,26 +9,29 @@
 #ifndef LED_H_
 #define LED_H_
 
+#include "GPIO.h"
+
 #define LED_DOOR  0
 
-#define LED_STATE_ON  0
-#define LED_STATE_OFF 1
+#define LED_STATE_ON   GPIO_PIN_VALUE_HIGH
+#define LED_STATE_OFF  GPIO_PIN_VALUE_LOW
+#define Led_Channel_Number  0
 
-#define LED_PIN_0 (u16)0x0001
-#define LED_PIN_1 (u16)0x0002
-#define LED_PIN_2 (u16)0x0004
-#define LED_PIN_3 (u16)0x0008
-#define LED_PIN_4 (u16)0x0010
-#define LED_PIN_5 (u16)0x0020
-#define LED_PIN_6 (u16)0x0040
-#define LED_PIN_7 (u16)0x0080
+#define LED_PIN_0  GPIO_PIN_0
+#define LED_PIN_1  GPIO_PIN_1
+#define LED_PIN_2  GPIO_PIN_2
+#define LED_PIN_3  GPIO_PIN_3
+#define LED_PIN_4  GPIO_PIN_4
+#define LED_PIN_5  GPIO_PIN_5
+#define LED_PIN_6  GPIO_PIN_6
+#define LED_PIN_7  GPIO_PIN_7
 
-#define LED_PORT_A (u16)0
-#define LED_PORT_B (u16)1
-#define LED_PORT_C (u16)2
-#define LED_PORT_D (u16)3
-#define LED_PORT_E (u16)4
-#define LED_PORT_F (u16)5
+#define LED_PORT_A GPIO_PORT_A
+#define LED_PORT_B GPIO_PORT_B
+#define LED_PORT_C GPIO_PORT_C
+#define LED_PORT_D GPIO_PORT_D
+#define LED_PORT_E GPIO_PORT_E
+#define LED_PORT_F GPIO_PORT_F
 
 
 Error_S HLED_Init (void);

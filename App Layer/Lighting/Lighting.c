@@ -15,20 +15,5 @@ Error_S DoorLightingSystem (u8 LedState)
     Error_S err = ERROR_OK;
     HLED_writeLedState(LedState);
 
-    /*u8 leftLight;
-    u8 rightLight;
-
-    Left_DoorSystem(LedState);
-    Right_DoorSystem(LedState);
-
-    if (*LedState == GPIO_PIN_VALUE_HIGH)
-    {
-
-    }
-    else
-    {
-
-    }*/
-
     return err;
 }
