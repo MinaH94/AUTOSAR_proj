@@ -6,25 +6,18 @@
  */
 
 
-#include <stdint.h>
+#include "STD_TYPES.h"
+#include "GPIO.h"
 #include "Led.h"
 #include "Led_Config.h"
-#include "GPIO.h"
 
-typedef struct
+
+Error_S HLED_Init (void)
 {
-	uint8_t GPIO_Pin_Number;
-	uint8_t GPIO_Port;
-	uint8_t LED_State;
-}LedMap_t;
+	Error_S Error_Status = ERROR_OK;
 
-
-Error_s HLED_Init (void)
-{
-	Error_s Error_Status = ERROR_OK;
-
-	uint8_t Leds_Counter = 0;
-	LedMap_t* Led_Config = HLED_GetLedConfigurations();
+	u8 Leds_Counter = 0;
+	const LedMap_t* Led_Config = HLED_GetLedConfigurations();
 
 	for ( Leds_Counter =0 ; Leds_Counter < LED_NUMBERS ; Leds_Counter++)
 	{
@@ -34,11 +27,11 @@ Error_s HLED_Init (void)
 	return Error_Status;
 }
 
-Error_s HLED_writeLedState (uint8_t Led_Channel_Number)
+Error_S HLED_writeLedState (u8 Led_Channel_Number)
 {
-	Error_s Error_Status = ERROR_OK;
+	Error_S Error_Status = ERROR_OK;
 
-	LedMap_t* Led_Config = HLED_GetLedConfigurations();
+	const LedMap_t* Led_Config = HLED_GetLedConfigurations();
 	GPIO_WritePin (Led_Config[Led_Channel_Number].GPIO_Port, Led_Config[Led_Channel_Number].GPIO_Pin_Number, GPIO_PIN_DIR_OUTPUT);
 
 	return Error_Status;

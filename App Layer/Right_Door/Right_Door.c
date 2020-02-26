@@ -1,9 +1,10 @@
+#include "STD_TYPES.h"
 #include "Right_Door.h"
 #include "SWITCH.h"
 
-Error_s Right_DoorSystem (u8* DoorState)
+Error_S Right_DoorSystem (u8* DoorState)
 {
-  Error_s ErrorStatus = Error_Ok;
+  Error_S ErrorStatus = ERROR_OK;
   
   u8 GetSwitchState;
   SWITCH_ReadState(RIGHT_DOOR,&GetSwitchState);

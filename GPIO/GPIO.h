@@ -31,6 +31,11 @@
 #define GPIO_PIN_VALUE_LOW  0
 /* ****************************** */
 
+/* Port bus select */
+#define SYSCTRL_APB 0
+#define SYSCTRL_AHB 1
+/* ****************************** */
+
 Error_S GPIO_Init(u32 port, u8 pin, u8 direction);
 Error_S GPIO_ReadPin(u32 port, u8 pin, u8* out);
 Error_S GPIO_WritePin(u32 port, u8 pin, u8 value);

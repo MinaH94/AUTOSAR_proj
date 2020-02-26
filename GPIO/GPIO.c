@@ -28,7 +28,7 @@ GPIO Port F (AHB): 0x4005D000
 
 typedef struct
 {
-    const u32 pad;
+    //const u32 pad;
     u32 GPIODATA[256];
     
     // TODO: review this again
@@ -37,8 +37,8 @@ typedef struct
     //const u32 _padding1[255]; /* reserved area */
 
     u32 GPIODIR;
-    u32 GPIODATA;
-    u32 GPIODIR;
+    //u32 GPIODATA;
+    //u32 GPIODIR;
     u32 GPIOIS;
     u32 GPIOIBE;
     u32 GPIOIEV;
@@ -168,12 +168,12 @@ Error_S SYSCTRL_GPIOBusControl(u8 In_u8In_u32Port, u8 In_u8Bus)
 	if (SYSCTRL_APB == In_u8Bus)
 	{
         Local_u8Status = ERROR_OK;
-        SYSCTRL_GPIOHBCTL &=~ In_u8In_u32Port
+        SYSCTRL_GPIOHBCTL &=~ In_u8In_u32Port;
 	}
 	else if (SYSCTRL_AHB == In_u8Bus)
 	{
         Local_u8Status = ERROR_OK;
-        SYSCTRL_GPIOHBCTL |= In_u8In_u32Port
+        SYSCTRL_GPIOHBCTL |= In_u8In_u32Port;
 	}
 
 	return Local_u8Status;
@@ -203,11 +203,11 @@ Error_S GPIO_ReadPin(u32 In_u32Port, u8 In_u8Pin, u8* Out_u8Out)
         to understand more please go to page 654 in the manual */
         if(0 < baseAddr->GPIODATA[In_u8Pin])
         {
-            *Out_u8Out = 1;
+            *Out_u8Out = GPIO_PIN_VALUE_HIGH;
         }
         else
         {
-            *Out_u8Out = 0;
+            *Out_u8Out = GPIO_PIN_VALUE_LOW;
         }
     }
 
