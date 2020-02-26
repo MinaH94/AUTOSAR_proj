@@ -6,7 +6,7 @@
 Error_S DoorLightingSystem (u8 LedState)
 {
     Error_S err = ERROR_OK;
-
+    HLED_Init();
     HLED_writeLedState(LedState);
 
     /*u8 leftLight;

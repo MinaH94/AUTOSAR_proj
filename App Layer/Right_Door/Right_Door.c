@@ -5,7 +5,7 @@
 Error_S Right_DoorSystem (u8* DoorState)
 {
   Error_S ErrorStatus = ERROR_OK;
-  
+  SWITCH_Init(SWITCH_RIGHT);
   u8 GetSwitchState;
   SWITCH_ReadState(RIGHT_DOOR,&GetSwitchState);
   *DoorState=GetSwitchState;
